@@ -1,0 +1,21 @@
+name: Hallow Provider Installer
+version: "1.0.0"
+slug: hallow-provider-installer
+description: Ensures the Hallow custom Music Assistant provider is installed in the Music Assistant config directory.
+arch:
+  - amd64
+  - armv7
+  - aarch64
+init: false
+map:
+  - config:rw
+options:
+  repo_url: "https://github.com/your-user/hallow-music-assistant-provider.git"
+  branch: "main"
+  auto_update: true
+  source_dir: ""
+schema:
+  repo_url: "str?"
+  branch: "str?"
+  auto_update: bool
+  source_dir: "str?"
