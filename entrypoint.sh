@@ -2,12 +2,19 @@
 set -Eeuo pipefail
 
 TARGET_DIR="${TARGET_DIR:-/config/music_assistant/custom_components/hallow}"
-REPO_URL="${REPO_URL:-https://github.com/your-user/hallow-music-assistant-provider.git}"
+REPO_URL="${REPO_URL:-}"
 BRANCH="${BRANCH:-main}"
 AUTO_UPDATE="${AUTO_UPDATE:-true}"
 SOURCE_DIR="${SOURCE_DIR:-}"
 VERSION_FILE="${TARGET_DIR}/.hallow_version"
 TMP_DIR="/tmp/hallow-provider"
+
+if [ -f /data/options.json ]; then
+  REPO_URL="${REPO_URL:-$(jq -r '.repo_url // ""' /data/options.json 2>/dev/null || echo "")}"
+  BRANCH="${BRANCH:-$(jq -r '.branch // "main"' /data/options.json 2>/dev/null || echo "main")}"
+  AUTO_UPDATE="${AUTO_UPDATE:-$(jq -r '.auto_update // "true"' /data/options.json 2>/dev/null || echo "true")}"
+  SOURCE_DIR="${SOURCE_DIR:-$(jq -r '.source_dir // ""' /data/options.json 2>/dev/null || echo "")}"
+fi
 
 mkdir -p "$(dirname "$TARGET_DIR")"
 
